@@ -1,0 +1,12 @@
+apiTEst\Constant.class
+apiTEst\Credentials.class
+apiTEst\GetToken.class
+seleniumTest\clientAdd.class
+google\com.class
+apiTEst\ClientApi.class
+apiTEst\CommonApi.class
+apiTEst\CandidateApi.class
+seleniumTest\Login.class
+Config\UrlConfig.class
+seleniumTest\test.class
+apiTEst\UserApi.class

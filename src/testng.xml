@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="ERP Api">
+
+    <test name="Get and post">
+
+        <classes>
+            <class name="apiTEst.UserApi"/>
+            <class name="apiTEst.CandidateApi"/>
+            <class name="apiTEst.ClientApi"/>
+            <class name="apiTEst.CommonApi"/>
+
+
+        </classes>
+
+
+    </test>
+
+
+</suite>

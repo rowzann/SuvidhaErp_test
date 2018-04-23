@@ -1,7 +1,8 @@
 package seleniumTest;
 
-import Config.UrlConfig;
+import login.LoginRepo;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class test {
 WebDriver driver=null;
+
 @Test
     public void getDriver() throws Exception {
       System.setProperty("webdriver.gecko.driver", "D://project//geckodriver.exe");
@@ -26,10 +28,11 @@ WebDriver driver=null;
     capabilities.setCapability("marionette", true);
     WebDriver driver = new FirefoxDriver(capabilities);
 //        driver = new FirefoxDriver();
-        driver.get("http://54.251.135.4");
+        driver.get("http://suvidhaerp.com");
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
-
+driver.findElement(By.xpath("//*[@id=\"email\"]")).clear();
+driver.findElement(By.xpath("//*[@id=\"email\"]")).sendKeys("asdasdasd");
 
     TakesScreenshot scrShot =((TakesScreenshot)driver);
 
@@ -55,4 +58,9 @@ WebDriver driver=null;
         driver.navigate().to("https://www.jobejee.com/#!/home");
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
-}
+
+
+
+
+    }
+

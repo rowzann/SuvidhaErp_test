@@ -10,43 +10,49 @@ import org.openqa.selenium.support.PageFactory;
  * Created by rojandhakal on 4/22/2018.
  */
 public class LoginRepo {
-    WebDriver driver;
-//    @FindBy(xpath = "//*[@id=\"email\"]")
-//    WebElement username;
-//
-//    @FindBy(xpath = "//*[@id=\"password\"]")
-//    WebElement password;
-//
-//    @FindBy(xpath = "/html/body/app-root/app-app-login/div/div/div[2]/form/div[3]/button")
-//    WebElement loginButton;
 
+    WebDriver driver;
 
 
     By username = By.xpath("//*[@id=\"email\"]");
     By password = By.xpath("//*[@id=\"password\"]");
     By loginButton = By.xpath("/html/body/app-root/app-app-login/div/div/div[2]/form/div[3]/button");
+    By placeEmail = By.xpath("/html/body/app-root/app-app-login/div/div/div[2]/form/div[1]/div/p");
+    By placePassword = By.xpath("/html/body/app-root/app-app-login/div/div/div[2]/form/div[2]/div/p");
+    By forgetPasswordButton = By.xpath("/html/body/app-root/app-app-login/div/div/div[2]/form/div[4]/a");
+
 
     public LoginRepo(WebDriver driver) {
         this.driver = driver;
+        //PageFactory.initElements(driver, this);
+    }
 
-        PageFactory.initElements(driver, this);
+    public void setUsername(String userName) {
+        driver.findElement(username).sendKeys(userName);
+    }
+
+    public void setPassword(String passWord) {
+        driver.findElement(password).sendKeys(passWord);
     }
 
 
-
-
-
-
-    public void loginToERP(String strUserName, String strPasword) {
-        //Fill user name
-        driver.findElement(username).sendKeys("alex.thapa")  ;
-        driver.findElement(password).sendKeys("12345");
+    public void LoginClick() {
         driver.findElement(loginButton).click();
-//        this.setUsername(strUserName);
-//        //Fill password
-//        this.setPassword(strPasword);
-//        //Click Login button
-//        this.clickLogin();
+    }
+
+    public String getPlaceholderE() {
+        String pe = driver.findElement(placeEmail).getText();
+        return pe;
+    }
+
+    public String getPlaceholderP() {
+        return driver.findElement(placePassword).getText();
 
     }
+
+    public void clickForgetPasswordButton() {
+        driver.findElement(forgetPasswordButton).click();
+    }
+
+
 }

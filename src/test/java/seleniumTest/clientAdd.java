@@ -1,8 +1,9 @@
 package seleniumTest;
 
-import Config.UrlConfig;
 
 
+
+import login.LoginRepo;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -10,9 +11,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.Mouse;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import utility.Url;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,37 +31,43 @@ import static java.awt.event.MouseEvent.MOUSE_CLICKED;
 /**
  * Created by rojandhakal on 3/13/2018.
  */
+@Listeners(utility.Listeners.class)
 public class clientAdd {
+
 
 
     FirefoxDriver driver = null;
     Robot robot = null;
+    LoginRepo objLogin;
 
     @BeforeClass
     public void getListCientPage() throws Exception {
 
-        System.setProperty("webdriver.firefox.marionette", "E:/geckodriver.exe");
-        driver = new FirefoxDriver();
-        driver.get(UrlConfig.url);
-        driver.manage().window().maximize();
-
-        driver.findElementByXPath("html/body/app-root/app-app-login/div/div/div[2]/form/div[1]/input").sendKeys("ramesh.khadka@suvidhatech.com");
-        driver.findElementByXPath("html/body/app-root/app-app-login/div/div/div[2]/form/div[2]/input").sendKeys("password123");
-        driver.findElementByXPath("html/body/app-root/app-app-login/div/div/div[2]/form/div[3]/button").click();
+        System.setProperty("webdriver.gecko.driver", "D://project//geckodriver.exe");
+        DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+        capabilities.setCapability("marionette", true);
+        driver = new FirefoxDriver(capabilities);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.get(Url.url);
+        objLogin=new LoginRepo(driver);
+        objLogin.setUsername(utility.Credentials.Username);
+        objLogin.setPassword(utility.Credentials.Password);
+        objLogin.LoginClick();
 
         Thread.sleep(2000);
     }
+
 
 
     @Test(priority = 1)
     public void visitCreateClient() {
 
         driver.findElementByXPath("html/body/app-root/app-list-client/div/div[2]/div[1]/div[2]/div[2]/a").click();
-        Assert.assertEquals(driver.getCurrentUrl(), UrlConfig.url + "/create-Client");
+        Assert.assertEquals(driver.getCurrentUrl(), Url.url + "/create-Client");
     }
 
 
-    @Test(priority = 2)
+    @Test(priority = 2,dependsOnMethods = {"visitCreateClient"})
     public void fillClientAdditionForm() throws Exception {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.findElementByXPath("html/body/app-root/app-create-client/div/div/div[2]/form/div/div[1]/div/div[1]/mat-form-field/div/div[1]/div/input").sendKeys("New Pokhara");
@@ -117,7 +127,7 @@ public class clientAdd {
 
         driver.findElementByXPath("html/body/app-root/app-create-client/div/div/div[2]/form/div/div[20]/div/div[1]/mat-form-field/div/div[1]/div/input").sendKeys("rojan dhakal");
         Thread.sleep(2000);
-        Assert.assertEquals(driver.getCurrentUrl(), UrlConfig.url + "/Client-view");
+        Assert.assertEquals(driver.getCurrentUrl(), Url.url + "/Client-view");
 
          driver.quit();
     }
@@ -135,14 +145,13 @@ public class clientAdd {
       getListCientPage();
        visitCreateClient();
         WebElement fileUpload=driver.findElement(By.xpath("html/body/app-root/app-create-client/div/div/div[2]/form/div/div[3]/div/div[2]/div/input"));
-        fileUpload.sendKeys("C:\\Users\\rojandhakal\\Desktop\\khaja.png");
+//        fileUpload.sendKeys("C:\\Users\\rojandhakal\\Desktop\\khaja.png");
 
         driver.findElementByXPath(" html/body/app-root/app-create-client/div/div/div[2]/form/div/div[20]/a").click();
         Thread.sleep(1000);
 
-            Assert.assertEquals(driver.getCurrentUrl(), UrlConfig.url + "/list-client");
-//            File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-//            FileUtils.copyFile(scrFile, new File("D:\\screenshot.png"));
+            Assert.assertEquals(driver.getCurrentUrl(), Url.url + "/list-Client");
+
 driver.quit();
         }
 
